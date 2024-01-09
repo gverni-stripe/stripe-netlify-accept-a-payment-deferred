@@ -16,10 +16,18 @@
     <main>
       <h1>Payment</h1>
 
-      <p>Enable more payment method types <a
-        href="https://dashboard.stripe.com/settings/payment_methods" target="_blank">in your
-        dashboard</a>.</p>
+      <p>
+        Enable more payment method types
+        <a
+          href="https://dashboard.stripe.com/settings/payment_methods"
+          target="_blank"
+          >in your dashboard</a
+        >.
+      </p>
 
+      <div id="express-checkout-element">
+        <!-- Express Checkout Element will be inserted here -->
+      </div>
       <form id="payment-form">
         <div id="link-authentication-element">
           <!-- Elements will create authentication element here -->
@@ -33,7 +41,7 @@
         </div>
       </form>
 
-      <div id="messages" role="alert" style="display: none;"></div>
+      <div id="messages" role="alert" style="display: none"></div>
     </main>
   </body>
 </html>

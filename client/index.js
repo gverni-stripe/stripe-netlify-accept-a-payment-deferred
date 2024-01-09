@@ -1,9 +1,9 @@
 document.addEventListener('DOMContentLoaded', async () => {
   // Load the publishable key from the server. The publishable key
   // is set in your .env file.
-  const {publishableKey, currency} = await fetch('/.netlify/functions/config').then((r) =>
-    r.json()
-  );
+  const {publishableKey, currency} = await fetch(
+    '/.netlify/functions/config'
+  ).then((r) => r.json());
   if (!publishableKey) {
     addMessage(
       'No publishable key returned from the server. Please check `.env` and try again'
@@ -13,17 +13,27 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   const stripe = Stripe(publishableKey, {});
 
-
   // Initialize Stripe Elements without any client secret. We will
   // then mount the payment element.
-  const options = {
+  const optionsPaymentElement = {
     mode: 'payment',
     amount: 1099,
     currency: currency,
   };
 
-  const elements = stripe.elements(options);
-  const paymentElement = elements.create('payment');
+  const optionsExpresscheckoutElement = {
+    mode: 'payment',
+    amount: 1099,
+    currency: currency,
+    paymentMethodTypes: ['card', 'link']
+  };
+
+  const elementsECE = stripe.elements(optionsExpresscheckoutElement);
+  const expressCheckoutElement = elementsECE.create('expressCheckout');
+  expressCheckoutElement.mount('#express-checkout-element');
+
+  const elementsPE = stripe.elements(optionsPaymentElement);
+  const paymentElement = elementsPE.create('payment');
   paymentElement.mount('#payment-element');
 
   // When the form is submitted...
@@ -50,7 +60,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     submitBtn.disabled = true;
 
     // Trigger form validation and wallet collection
-    const {error: submitError} = await elements.submit();
+    const {error: submitError} = await elementsPE.submit();
     if (submitError) {
       handleError(submitError);
       return;
@@ -68,7 +78,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // Confirm the PaymentIntent using the details collected by the Payment Element
     const {error} = await stripe.confirmPayment({
-      elements,
+      elements: elementsPE,
       clientSecret,
       confirmParams: {
         return_url: `${window.location.origin}/return.html`,
@@ -84,6 +94,42 @@ document.addEventListener('DOMContentLoaded', async () => {
       // Your customer is redirected to your `return_url`. For some payment
       // methods like iDEAL, your customer is redirected to an intermediate
       // site first to authorize the payment, then redirected to the `return_url`.
+    }
+  });
+
+  /**
+   * ECE Hanler
+   */
+  expressCheckoutElement.on('confirm', async (event) => {
+    const {error: submitError} = await elementsECE.submit();
+    if (submitError) {
+      handleError(submitError);
+      return;
+    }
+
+    // Create the PaymentIntent and obtain clientSecret
+    const res = await fetch('/.netlify/functions/create-payment-intent?payment_method_types=ece', {
+      method: 'POST',
+    });
+    const {clientSecret} = await res.json();
+
+    const {error} = await stripe.confirmPayment({
+      // `elements` instance used to create the Express Checkout Element
+      elements: elementsECE,
+      // `clientSecret` from the created PaymentIntent
+      clientSecret,
+      confirmParams: {
+        return_url: `${window.location.origin}/return.html`,
+      },
+    });
+
+    if (error) {
+      // This point is only reached if there's an immediate error when
+      // confirming the payment. Show the error to your customer (for example, payment details incomplete)
+      handleError(error);
+    } else {
+      // The payment UI automatically closes with a success animation.
+      // Your customer is redirected to your `return_url`.
     }
   });
 });
