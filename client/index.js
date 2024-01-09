@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', async () => {
   // Load the publishable key from the server. The publishable key
   // is set in your .env file.
-  const {publishableKey} = await fetch('/.netlify/functions/config').then((r) =>
+  const {publishableKey, currency} = await fetch('/.netlify/functions/config').then((r) =>
     r.json()
   );
   if (!publishableKey) {
@@ -13,25 +13,13 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   const stripe = Stripe(publishableKey, {});
 
-  // On page load, we create a PaymentIntent on the server so that we have its clientSecret to
-  // initialize the instance of Elements below. The PaymentIntent settings configure which payment
-  // method types to display in the PaymentElement.
-  // const {
-  //   error: backendError,
-  //   clientSecret
-  // } = await fetch('/.netlify/functions/create-payment-intent').then(r => r.json());
-  // if (backendError) {
-  //   addMessage(backendError.message);
-  // }
-  // addMessage(`Client secret returned.`);
 
-  // Initialize Stripe Elements with the PaymentIntent's clientSecret,
+  // Initialize Stripe Elements without any client secret. We will
   // then mount the payment element.
-
   const options = {
     mode: 'payment',
     amount: 1099,
-    currency: 'gbp',
+    currency: currency,
   };
 
   const elements = stripe.elements(options);

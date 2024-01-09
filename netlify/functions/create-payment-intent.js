@@ -12,7 +12,7 @@ exports.handler = async () => {
   // [0] https://stripe.com/docs/api/payment_intents/create
   try {
     const paymentIntent = await stripe.paymentIntents.create({
-      currency: 'gbp',
+      currency: process.env.CURRENCY || 'usd',
       amount: 1999,
       automatic_payment_methods: {enabled: true},
     });
