@@ -1,0 +1,21 @@
+{
+  "name": "accept-a-payment-deferred",
+  "version": "1.0.0",
+  "description": "Collect payment details before creating an Intent",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "stripe": "^14.2.0"
+  },
+  "devDependencies": {
+    "@compodoc/live-server": "^1.2.3"
+  }
+}
