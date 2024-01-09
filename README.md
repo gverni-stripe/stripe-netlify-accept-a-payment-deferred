@@ -1,4 +1,6 @@
-# Stripe Accept a payment boilerplate for Netlify 
+[![Netlify Status](https://api.netlify.com/api/v1/badges/fa16d4e4-5f71-4b4f-a386-8907b54d64e9/deploy-status)](https://app.netlify.com/sites/stripe-netlify-accept-a-payment-defer/deploys)
+
+# Stripe collect payment details before creating an Intent for Netlify 
 
 Demo available [here](https://stripe-netlify-accept-a-payment-deferred.netlify.app/)
 
@@ -17,6 +19,7 @@ To use this sample on Netlify from GitHub:
 * Click on `Environment Variable` button and add the following environmental variable
   * `STRIPE_PUBLISHABLE_KEY`: your Stripe publishable key
   * `STRIPE_SECRET_KEY`: your stripe secret key
+  * `CURRENCY`: currency for the payment intent. If not specified, the default value is `usd`
 * Click Deploy button
 
 # Testing locally 
