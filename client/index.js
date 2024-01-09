@@ -33,7 +33,12 @@ document.addEventListener('DOMContentLoaded', async () => {
   expressCheckoutElement.mount('#express-checkout-element');
 
   const elementsPE = stripe.elements(optionsPaymentElement);
-  const paymentElement = elementsPE.create('payment');
+  const paymentElement = elementsPE.create('payment', {
+    wallets: {
+      applePay: 'never', 
+      googlePay: 'never',
+    }
+  });
   paymentElement.mount('#payment-element');
 
   // When the form is submitted...
