@@ -2,7 +2,7 @@
 
 # Stripe collect payment details before creating an Intent for Netlify 
 
-Demo available [here](https://stripe-netlify-accept-a-payment-deferred.netlify.app/)
+Demo available [here](https://stripe-netlify-accept-a-payment-defer.netlify.app/)
 
 This is a simple boilerplate for the [Collect payment details before creating an Intent](https://stripe.com/docs/payments/accept-a-payment-deferred) Sample. 
 
