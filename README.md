@@ -1,6 +1,6 @@
 [![Netlify Status](https://api.netlify.com/api/v1/badges/fa16d4e4-5f71-4b4f-a386-8907b54d64e9/deploy-status)](https://app.netlify.com/sites/stripe-netlify-accept-a-payment-defer/deploys)
 
-# Stripe collect payment details before creating an Intent for Netlify 
+# Stripe collect payment details before creating an Intent with Express Checkout for Netlify 
 
 Demo available [here](https://stripe-netlify-accept-a-payment-defer.netlify.app/)
 
