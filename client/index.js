@@ -9,9 +9,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
       // Create the PaymentIntent and obtain clientSecret
       const res = await fetch(
-        `/.netlify/functions/create-payment-intent?payment_method_types=${JSON.stringify(
-          ['card', 'link']
-        )}`,
+        `/.netlify/functions/create-payment-intent?payment_method_configurations=${paymentMethodConfiguration})}`,
         {
           method: 'POST',
         }
@@ -104,7 +102,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   // Load the publishable key from the server. The publishable key
   // is set in your .env file.
-  const {publishableKey, currency} = await fetch(
+  const {publishableKey, currency, paymentMethodConfiguration} = await fetch(
     '/.netlify/functions/config'
   ).then((r) => r.json());
   if (!publishableKey) {
@@ -126,7 +124,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     mode: 'payment',
     amount: 1099,
     currency: currency,
-    paymentMethodTypes: ['card', 'link'],
+    payment_method_configuration: paymentMethodConfiguration,
   };
 
   const elementsECE = stripe.elements(optionsExpresscheckoutElement);

@@ -12,14 +12,15 @@ exports.handler = async (request) => {
   //
   // [0] https://stripe.com/docs/api/payment_intents/create
 
-  const paymentMethodOptions =
-    request.queryStringParameters.payment_method_types 
-      ? {
-          payment_method_types: ['card', 'link'],
-        }
-      : {
-          automatic_payment_methods: {enabled: true},
-        };
+  const paymentMethodOptions = request.queryStringParameters
+    .payment_method_configuration
+    ? {
+        payment_method_configuration:
+          request.queryStringParameters.payment_method_configuration,
+      }
+    : {
+        automatic_payment_methods: {enabled: true},
+      };
 
   try {
     const paymentIntent = await stripe.paymentIntents.create({
