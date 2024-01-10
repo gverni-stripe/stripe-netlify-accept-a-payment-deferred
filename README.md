@@ -22,6 +22,7 @@ To use this sample on Netlify from GitHub:
   * `STRIPE_PUBLISHABLE_KEY`: your Stripe publishable key
   * `STRIPE_SECRET_KEY`: your stripe secret key
   * `CURRENCY`: currency for the payment intent. If not specified, the default value is `usd`
+  * `ECE_PAYMENT_METHOD_CONFIGURATION`: Payment method congfiguration id for Express Checkout. Follo the instructions (here)[https://stripe.com/docs/payments/multiple-payment-method-configs?locale=en-GB#create-payment-method-configuration`] to create a new payment method configuration
 * Click Deploy button
 
 # Testing locally 
